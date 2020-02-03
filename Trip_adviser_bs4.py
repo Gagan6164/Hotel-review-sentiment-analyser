@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup as bs
 import requests
 import time
 urls = []
-with open('hotels.log','r') as f:
+with open('hotels.txt','r') as f:
     for lines in f:
         l = lines.split()
         if (l[-1].endswith("#REVIEWS")):
@@ -49,3 +49,18 @@ with open('ritesh.txt','w') as a:
             print("Connection error Retrying in 10 sec...")
             time.sleep(100)
 a.close()
+
+
+def get_hotal_review_urls(hotel_url):
+    sourse = requests.get(hotel_url).content
+    soup = bs(sourse,'lxml')
+    total_review_pages = soup.find('a', class_="last").text
+    total_review_pages = int(total_reviews)
+    hotal_review_links =  []
+    for pages in range(0,total_review_pages):
+        if (pages !=0 ):
+            s = "-or{}-".format(pages*5)
+            link = links.split("-")
+            new_link = link[0]+"-".join(i for i in link[1:3])+ s + "-".join(i for i in link[4:])
+        hotal_review_links.append(new_link)
+    return new_link
